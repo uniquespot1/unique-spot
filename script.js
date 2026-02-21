@@ -1,8 +1,8 @@
 let products = [
 {
-name:"Smart Watch",
+name:"tv",
 price:4500,
-image:"watch.jpg"
+image:"tv.jpg"
 },
 {
 name:"Headphones",
