@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Smart Watch",
+    "price": "Rs 4,500",
+    "image": "https://i.imgur.com/2DhmtJ4.png",
+    "category": "Electronics"
+  },
+  {
+    "name": "T-Shirt",
+    "price": "Rs 1,200",
+    "image": "https://i.imgur.com/8Km9tLL.png",
+    "category": "Clothes"
+  },
+  {
+    "name": "Headphones",
+    "price": "Rs 3,000",
+    "image": "https://i.imgur.com/1bX5QH6.png",
+    "category": "Electronics"
+  }
+]
