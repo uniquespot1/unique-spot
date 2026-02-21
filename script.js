@@ -1,7 +1,7 @@
 let products = [
 {
 name:"tv",
-price:4500,
+price:3000,
 image:"tv.jpg"
 },
 {
