@@ -5,7 +5,7 @@ price:3000,
 image:"tv.jpg"
 },
 {
-name:"Headphones",
+name:"tv",
 price:3000,
 image:"https://images.unsplash.com/photo-1585386959984-a4155223169c"
 },
