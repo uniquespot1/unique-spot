@@ -1,57 +1,49 @@
-let products = [
+const products = [
 {
-name:"tv",
-price:3000,
-image:"tv.jpg"
+name: "TV",
+price: 3000,
+image: "tv.jpg"
 },
 {
-name:"tv",
-price:3000,
-image:"https://images.unsplash.com/photo-1585386959984-a4155223169c"
+name: "Headphones",
+price: 3000,
+image: "headphones.jpg"
 },
 {
-name:"T-Shirt",
-price:1200,
-image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"
+name: "T-Shirt",
+price: 1200,
+image: "tshirt.jpg"
 }
 ];
 
-let cart = [];
+const productContainer = document.getElementById("products");
 
-function displayProducts(){
-let container = document.getElementById("products");
-container.innerHTML="";
+products.forEach(product => {
 
-products.forEach((p,i)=>{
-container.innerHTML+=`
-<div class="product">
-<img src="${p.image}">
-<h3>${p.name}</h3>
-<p>Rs ${p.price}</p>
+const div = document.createElement("div");
+div.className = "product";
 
-<button onclick="addToCart(${i})">Add to Cart</button>
-<button onclick="orderNow('${p.name}', '${p.price}')">Order on WhatsApp</button>
-
-</div>
+div.innerHTML = `
+<img src="${product.image}">
+<h3>${product.name}</h3>
+<p>Rs ${product.price}</p>
+<button onclick="addToCart()">Add to Cart</button>
+<button onclick="orderWhatsApp('${product.name}')">Order on WhatsApp</button>
 `;
+
+productContainer.appendChild(div);
+
 });
+
+let cart = 0;
+
+function addToCart(){
+cart++;
+document.getElementById("cart-count").innerText = cart;
 }
 
-displayProducts();
-
-function addToCart(i){
-cart.push(products[i]);
-document.getElementById("cart-count").innerText = cart.length;
-}
-
-function orderNow(name, price){
-let phone="94776939483";
-let message = `Hello Unique Spot, I want to order:
-
-Product: ${name}
-Price: Rs ${price}`;
-
-let url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
-
-window.open(url, "_blank");
+function orderWhatsApp(productName){
+let phone = "94700000000"; // your WhatsApp number
+let message = `I want to buy ${productName}`;
+window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
 }
