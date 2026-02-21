@@ -2,7 +2,7 @@ let products = [
 {
 name:"Smart Watch",
 price:4500,
-image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"
+image:"watch.jpg"
 },
 {
 name:"Headphones",
