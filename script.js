@@ -2,64 +2,56 @@ let products = [
 {
 name:"Smart Watch",
 price:4500,
-image:"https://i.imgur.com/Z6X9K5S.png",
-category:"Electronics"
+image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"
 },
 {
 name:"Headphones",
 price:3000,
-image:"https://i.imgur.com/9sY2F4K.png",
-category:"Electronics"
+image:"https://images.unsplash.com/photo-1585386959984-a4155223169c"
 },
 {
 name:"T-Shirt",
 price:1200,
-image:"https://i.imgur.com/3dL8XcQ.png",
-category:"Clothes"
-},
-{
-name:"Phone Case",
-price:800,
-image:"https://i.imgur.com/3v3QZ4F.png",
-category:"Accessories"
+image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"
 }
 ];
 
 let cart = [];
 
-function displayProducts(list){
+function displayProducts(){
 let container = document.getElementById("products");
 container.innerHTML="";
 
-list.forEach((p,i)=>{
+products.forEach((p,i)=>{
 container.innerHTML+=`
 <div class="product">
 <img src="${p.image}">
 <h3>${p.name}</h3>
 <p>Rs ${p.price}</p>
+
 <button onclick="addToCart(${i})">Add to Cart</button>
-<button onclick="orderNow('${p.name}')">Order</button>
+<button onclick="orderNow('${p.name}', '${p.price}')">Order on WhatsApp</button>
+
 </div>
 `;
 });
 }
 
-displayProducts(products);
+displayProducts();
 
 function addToCart(i){
 cart.push(products[i]);
 document.getElementById("cart-count").innerText = cart.length;
-alert("Added to cart");
 }
 
-document.getElementById("search").addEventListener("keyup", function(){
-let value = this.value.toLowerCase();
-let filtered = products.filter(p => p.name.toLowerCase().includes(value));
-displayProducts(filtered);
-});
-
-function orderNow(product){
+function orderNow(name, price){
 let phone="94776939483";
-let message="Hello Unique Spot, I want to order: " + product;
-window.open(`https://wa.me/${phone}?text=${message}`);
+let message = `Hello Unique Spot, I want to order:
+
+Product: ${name}
+Price: Rs ${price}`;
+
+let url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+
+window.open(url, "_blank");
 }
