@@ -1,59 +1,46 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f5f5;
+body{
+font-family: Arial;
+margin:0;
+background:#f5f5f5;
 }
 
-.topbar {
-    background: orange;
-    color: white;
-    text-align: center;
-    padding: 15px;
+header{
+background:green;
+color:white;
+padding:15px;
+display:flex;
+align-items:center;
+gap:15px;
 }
 
-.menu {
-    background: #222;
-    padding: 10px;
-    text-align: center;
+.logo{
+width:50px;
 }
 
-.menu a {
-    color: white;
-    margin: 10px;
-    text-decoration: none;
-    font-weight: bold;
+#search{
+padding:10px;
+width:40%;
 }
 
-.banner {
-    background: #ff6600;
-    color: white;
-    text-align: center;
-    padding: 30px;
+#products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+padding:20px;
 }
 
-.products {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 20px;
+.card{
+background:white;
+padding:15px;
+border-radius:10px;
+text-align:center;
 }
 
-.product {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
-    width: 200px;
+button{
+background:green;
+color:white;
+border:none;
+padding:10px;
+cursor:pointer;
 }
 
-.product img {
-    width: 100%;
-}
-
-button {
-    background: orange;
-    border: none;
-    padding: 10px;
-    color: white;
-    cursor: pointer;
-}
