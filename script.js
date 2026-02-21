@@ -1,39 +1,65 @@
 let products = [
- {name:"iPhone 13", price:250000, image:"phone.jpg"},
- {name:"Headset", price:5000, image:"headset.jpg"},
- {name:"T-Shirt", price:3000, image:"shirt.jpg"}
+{
+name:"Smart Watch",
+price:4500,
+image:"https://i.imgur.com/Z6X9K5S.png",
+category:"Electronics"
+},
+{
+name:"Headphones",
+price:3000,
+image:"https://i.imgur.com/9sY2F4K.png",
+category:"Electronics"
+},
+{
+name:"T-Shirt",
+price:1200,
+image:"https://i.imgur.com/3dL8XcQ.png",
+category:"Clothes"
+},
+{
+name:"Phone Case",
+price:800,
+image:"https://i.imgur.com/3v3QZ4F.png",
+category:"Accessories"
+}
 ];
 
 let cart = [];
 
 function displayProducts(list){
-let html="";
+let container = document.getElementById("products");
+container.innerHTML="";
+
 list.forEach((p,i)=>{
-html+=`
-<div class="card">
-<img src="${p.image}" width="150">
+container.innerHTML+=`
+<div class="product">
+<img src="${p.image}">
 <h3>${p.name}</h3>
 <p>Rs ${p.price}</p>
-<button onclick="addCart(${i})">Add to Cart</button>
+<button onclick="addToCart(${i})">Add to Cart</button>
+<button onclick="orderNow('${p.name}')">Order</button>
 </div>
 `;
 });
-document.getElementById("products").innerHTML=html;
 }
 
 displayProducts(products);
 
-function searchProduct(){
-let value=document.getElementById("search").value.toLowerCase();
-let filtered=products.filter(p=>p.name.toLowerCase().includes(value));
-displayProducts(filtered);
-}
-
-function addCart(i){
+function addToCart(i){
 cart.push(products[i]);
+document.getElementById("cart-count").innerText = cart.length;
 alert("Added to cart");
 }
 
-function openCart(){
-alert("Cart Items: "+cart.length);
+document.getElementById("search").addEventListener("keyup", function(){
+let value = this.value.toLowerCase();
+let filtered = products.filter(p => p.name.toLowerCase().includes(value));
+displayProducts(filtered);
+});
+
+function orderNow(product){
+let phone="94776939483";
+let message="Hello Unique Spot, I want to order: " + product;
+window.open(`https://wa.me/${phone}?text=${message}`);
 }
