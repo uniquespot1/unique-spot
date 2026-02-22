@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unique Spot</title>
-
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unique Spot</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
-
 <body>
 
 <header class="header">
-
-  <!-- LOGO + NAME -->
+  <!-- LOGO + BRAND -->
   <div class="logo">
     <img src="images/logo2.png" alt="Unique Spot">
     <span class="brand-name">Unique Spot</span>
@@ -20,8 +17,8 @@
 
   <!-- SEARCH -->
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Search products...">
-    <button id="searchBtn">Search</button>
+    <input type="text" id="searchInput" placeholder="Search products..."/>
+    <button id="searchBtn" type="button">Search</button>
   </div>
 
   <!-- NAV -->
@@ -31,27 +28,24 @@
       Cart <span id="cartCount" class="badge">0</span>
     </a>
   </nav>
-
 </header>
 
 <div class="container">
-
   <aside class="sidebar">
     <h3>Categories</h3>
     <ul>
-      <li data-cat="all" class="active">All</li>
-      <li data-cat="mobilephones">Mobile Phones</li>
-      <li data-cat="smartwatches">Smart Watches</li>
-      <li data-cat="electronics">Electronics</li>
-      <li data-cat="beauty">Beauty</li>
-      <li data-cat="fashion">Fashion</li>
-      <li data-cat="gaming">Gaming</li>
-      <li data-cat="homeitems">Home Items</li>
+      <li data-cat="all" class="active">🔥 All</li>
+      <li data-cat="mobilephones">📱 Mobile Phones</li>
+      <li data-cat="smartwatches">⌚ Smart Watches</li>
+      <li data-cat="electronics">💻 Electronics</li>
+      <li data-cat="beauty">💄 Beauty</li>
+      <li data-cat="fashion">👕 Fashion</li>
+      <li data-cat="gaming">🎮 Gaming</li>
+      <li data-cat="homeitems">🏠 Home Items</li>
     </ul>
   </aside>
 
   <main class="products" id="productList"></main>
-
 </div>
 
 <script src="script.js"></script>
