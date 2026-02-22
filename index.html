@@ -1,62 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unique Spot</title>
-
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unique Spot</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
-
 <body>
 
-<!-- HEADER -->
 <header class="header">
 
-  <!-- LOGO + BRAND NAME -->
+  <!-- ✅ LOGO + BRAND NAME -->
   <div class="logo">
     <img src="images/logo.png" alt="Unique Spot">
     <span class="brand-name">Unique Spot</span>
   </div>
 
-  <!-- SEARCH -->
+  <!-- ✅ SEARCH (ids match old script.js) -->
   <div class="search-box">
-    <input type="text" placeholder="Search products...">
-    <button>Search</button>
+    <input type="text" id="searchInput" placeholder="Search products..." />
+    <button id="searchBtn" type="button">Search</button>
   </div>
 
-  <!-- NAV -->
-  <nav class="nav">
-    <a href="login.html">Login</a>
+  <!-- ✅ NAV -->
+  <div class="nav">
+    <a href="login.html" id="loginLink">Login</a>
+    <a href="account.html" id="accountLink" style="display:none;">My Account</a>
+    <a href="orders.html" id="ordersLink" style="display:none;">My Orders</a>
+
+    <span id="userHello" style="font-weight:800;"></span>
+    <a href="#" id="logoutBtn" style="display:none;">Logout</a>
+
     <a href="cart.html" class="cart-link">
-      Cart <span class="badge">0</span>
+      Cart <span id="cartCount" class="badge">0</span>
     </a>
-  </nav>
+  </div>
 
 </header>
 
-
-<!-- MAIN -->
 <div class="container">
 
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <h3>Categories</h3>
     <ul>
-      <li class="active">All</li>
-      <li>Mobile Phones</li>
-      <li>Smart Watches</li>
-      <li>Electronics</li>
-      <li>Beauty</li>
-      <li>Fashion</li>
-      <li>Gaming</li>
-      <li>Home Items</li>
+      <li data-cat="all" class="active">🔥 All</li>
+      <li data-cat="mobilephones">📱 Mobile Phones</li>
+      <li data-cat="smartwatches">⌚ Smart Watches</li>
+      <li data-cat="fashion">👕 Fashion</li>
+      <li data-cat="beauty">💄 Beauty</li>
+      <li data-cat="electronics">💻 Electronics</li>
+      <li data-cat="gaming">🎮 Gaming</li>
+      <li data-cat="homeitems">🏠 Home Items</li>
     </ul>
   </aside>
 
-  <!-- PRODUCTS -->
-  <section class="products">
-  </section>
+  <!-- ✅ IMPORTANT: id="productList" must exist -->
+  <main class="products" id="productList"></main>
 
 </div>
 
