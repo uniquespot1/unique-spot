@@ -1,80 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unique Spot</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unique Spot</title>
+  <link rel="stylesheet" href="style.css"/>
 
-<link rel="stylesheet" href="style.css">
-
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QYV1K4ZEXP"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-QYV1K4ZEXP');
-</script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QYV1K4ZEXP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QYV1K4ZEXP');
+  </script>
 
 </head>
-
 <body>
 
-<!-- HEADER -->
 <header class="header">
+  <!-- LOGO + BRAND -->
+  <div class="logo">
+    <img src="images/logo2.png" alt="Unique Spot">
+    <span class="brand-name">Unique Spot</span>
+  </div>
 
-    <div class="logo-box">
-        <img src="images/logo.png" class="logo-img">
-        <span class="logo-text">Unique Spot</span>
-    </div>
+  <!-- SEARCH -->
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search products..."/>
+    <button id="searchBtn" type="button">Search</button>
+  </div>
 
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search products...">
-        <button onclick="searchProducts()">Search</button>
-    </div>
-
-    <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="cart.html" class="cart-link">
-            Cart <span class="badge" id="cartCount">0</span>
-        </a>
-    </nav>
-
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="login.html">Login</a>
+    <a href="cart.html" class="cart-link">
+      Cart <span id="cartCount" class="badge">0</span>
+    </a>
+  </nav>
 </header>
 
-
-<!-- MAIN -->
 <div class="container">
+  <aside class="sidebar">
+    <h3>Categories</h3>
+    <ul>
+      <li data-cat="all" class="active">🔥 All</li>
+      <li data-cat="mobilephones">📱 Mobile Phones</li>
+      <li data-cat="smartwatches">⌚ Smart Watches</li>
+      <li data-cat="electronics">💻 Electronics</li>
+      <li data-cat="beauty">💄 Beauty</li>
+      <li data-cat="fashion">👕 Fashion</li>
+      <li data-cat="gaming">🎮 Gaming</li>
+      <li data-cat="homeitems">🏠 Home Items</li>
+    </ul>
+  </aside>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <h3>Categories</h3>
-        <ul id="categoryList">
-            <li class="active" onclick="filterCategory('all')">All</li>
-            <li onclick="filterCategory('mobile')">Mobile Phones</li>
-            <li onclick="filterCategory('smartwatch')">Smart Watches</li>
-            <li onclick="filterCategory('electronics')">Electronics</li>
-            <li onclick="filterCategory('beauty')">Beauty</li>
-            <li onclick="filterCategory('fashion')">Fashion</li>
-            <li onclick="filterCategory('gaming')">Gaming</li>
-            <li onclick="filterCategory('home')">Home Items</li>
-        </ul>
-    </aside>
-
-
-    <!-- PRODUCTS -->
-    <main class="products" id="productList">
-        <!-- Products load from script.js -->
-    </main>
-
+  <main class="products" id="productList"></main>
 </div>
-
-
-<!-- FOOTER -->
-<footer style="text-align:center; padding:20px; margin-top:40px;">
-    © 2026 Unique Spot — Online Shopping Sri Lanka
-</footer>
-
 
 <script src="script.js"></script>
 </body>
