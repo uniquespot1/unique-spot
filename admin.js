@@ -1,5 +1,5 @@
 /***********************
- Admin Panel (localStorage)
+ Admin Panel (localStorage) + Photo Upload
 ***********************/
 const DEFAULT_PIN = "1234";
 
@@ -22,12 +22,8 @@ const LS_ADMIN_AUTH = "us_admin_auth_v1";
 
 function $(id){ return document.getElementById(id); }
 
-function getPin(){
-  return localStorage.getItem(LS_ADMIN_PIN) || DEFAULT_PIN;
-}
-function setPin(pin){
-  localStorage.setItem(LS_ADMIN_PIN, pin);
-}
+function getPin(){ return localStorage.getItem(LS_ADMIN_PIN) || DEFAULT_PIN; }
+function setPin(pin){ localStorage.setItem(LS_ADMIN_PIN, pin); }
 
 function getProducts(){
   try{
@@ -39,25 +35,17 @@ function getProducts(){
     return DEFAULT_PRODUCTS.slice();
   }
 }
-function saveProducts(arr){
-  localStorage.setItem(LS_PRODUCTS, JSON.stringify(arr));
-}
+function saveProducts(arr){ localStorage.setItem(LS_PRODUCTS, JSON.stringify(arr)); }
 
-function genId(products){
-  const n = products.length + 1;
-  return "p" + n;
-}
-
+function genId(products){ return "p" + (products.length + 1); }
 function money(n){ return "Rs. " + Number(n||0).toLocaleString("en-LK"); }
 
-function setAuth(v){
-  localStorage.setItem(LS_ADMIN_AUTH, v ? "1":"0");
-}
-function isAuthed(){
-  return localStorage.getItem(LS_ADMIN_AUTH) === "1";
-}
+function setAuth(v){ localStorage.setItem(LS_ADMIN_AUTH, v ? "1":"0"); }
+function isAuthed(){ return localStorage.getItem(LS_ADMIN_AUTH) === "1"; }
 
 let editingId = null;
+// ✅ photo upload dataURL (temporary)
+let pickedImageDataUrl = "";
 
 function showPanel(){
   $("adminLogin").classList.add("hidden");
@@ -70,6 +58,14 @@ function showLogin(){
   $("adminPanel").classList.add("hidden");
 }
 
+function resetPreview(){
+  pickedImageDataUrl = "";
+  const img = $("imgPreview");
+  if(img){ img.style.display = "none"; img.src = ""; }
+  const file = $("pFile");
+  if(file) file.value = "";
+}
+
 function resetForm(){
   editingId = null;
   $("formTitle").textContent = "Add Product";
@@ -77,7 +73,8 @@ function resetForm(){
   $("pName").value = "";
   $("pPrice").value = "";
   $("pCat").value = "electronics";
-  $("pImg").value = "";
+  $("pImg").value = ""; // optional path
+  resetPreview();
 }
 
 function render(){
@@ -87,7 +84,7 @@ function render(){
   const q = ($("filterText").value || "").trim().toLowerCase();
   const list = q ? products.filter(p => (p.name||"").toLowerCase().includes(q)) : products;
 
-  const rows = list.map(p => `
+  $("productRows").innerHTML = (list.map(p => `
     <tr>
       <td>${p.name || ""}</td>
       <td>${money(p.price)}</td>
@@ -99,9 +96,7 @@ function render(){
         </div>
       </td>
     </tr>
-  `).join("");
-
-  $("productRows").innerHTML = rows || `<tr><td colspan="4" class="small">No products</td></tr>`;
+  `).join("")) || `<tr><td colspan="4" class="small">No products</td></tr>`;
 
   document.querySelectorAll("[data-edit]").forEach(btn=>{
     btn.onclick = () => startEdit(btn.getAttribute("data-edit"));
@@ -122,7 +117,21 @@ function startEdit(id){
   $("pName").value = p.name || "";
   $("pPrice").value = p.price || "";
   $("pCat").value = p.cat || "electronics";
-  $("pImg").value = p.img || "";
+
+  // if img is a normal path, keep in input. If dataURL, clear input (optional)
+  if((p.img || "").startsWith("data:image")){
+    $("pImg").value = "";
+    pickedImageDataUrl = p.img;
+    const img = $("imgPreview");
+    if(img){
+      img.src = p.img;
+      img.style.display = "block";
+    }
+  }else{
+    $("pImg").value = p.img || "";
+    resetPreview();
+  }
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -139,7 +148,10 @@ function saveProduct(){
   const name = $("pName").value.trim();
   const price = Number($("pPrice").value);
   const cat = $("pCat").value;
-  const img = $("pImg").value.trim();
+
+  // ✅ image choose priority: uploaded photo > typed path
+  const typedImg = $("pImg").value.trim();
+  const img = pickedImageDataUrl || typedImg || "";
 
   if(!name){ alert("Enter product name"); return; }
   if(!price || price < 1){ alert("Enter valid price"); return; }
@@ -148,9 +160,7 @@ function saveProduct(){
 
   if(editingId){
     const i = products.findIndex(x => x.id === editingId);
-    if(i >= 0){
-      products[i] = { ...products[i], name, price, cat, img };
-    }
+    if(i >= 0) products[i] = { ...products[i], name, price, cat, img };
   }else{
     const id = genId(products);
     products.push({ id, name, price, cat, img });
@@ -178,7 +188,6 @@ function resetAll(){
 }
 
 function updateCartCount(){
-  // optional: show cart count in admin header too
   try{
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const count = cart.reduce((s,i)=> s + (i.qty||0), 0);
@@ -189,8 +198,7 @@ function updateCartCount(){
 
 function login(){
   const pin = $("adminPin").value.trim();
-  const real = getPin();
-  if(pin === real){
+  if(pin === getPin()){
     $("loginMsg").textContent = "Login success ✅";
     setAuth(true);
     showPanel();
@@ -215,6 +223,66 @@ function logout(){
   showLogin();
 }
 
+/* ✅ Photo -> resize+compress -> dataURL */
+function fileToDataURL(file){
+  return new Promise((resolve, reject)=>{
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+function compressImage(dataUrl, maxW=800, quality=0.82){
+  return new Promise((resolve)=>{
+    const img = new Image();
+    img.onload = () => {
+      let w = img.width;
+      let h = img.height;
+      if(w > maxW){
+        const ratio = maxW / w;
+        w = Math.round(w * ratio);
+        h = Math.round(h * ratio);
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, w, h);
+
+      // jpeg smaller than png
+      const out = canvas.toDataURL("image/jpeg", quality);
+      resolve(out);
+    };
+    img.onerror = () => resolve(dataUrl);
+    img.src = dataUrl;
+  });
+}
+
+async function onPickPhoto(){
+  const fileInput = $("pFile");
+  if(!fileInput || !fileInput.files || !fileInput.files[0]) return;
+
+  const file = fileInput.files[0];
+
+  // 1) read dataUrl
+  const dataUrl = await fileToDataURL(file);
+  // 2) compress
+  const compressed = await compressImage(dataUrl, 800, 0.82);
+
+  pickedImageDataUrl = compressed;
+
+  // preview
+  const img = $("imgPreview");
+  if(img){
+    img.src = compressed;
+    img.style.display = "block";
+  }
+
+  // clear typed path (optional)
+  $("pImg").value = "";
+}
+
 document.addEventListener("DOMContentLoaded", ()=>{
   updateCartCount();
 
@@ -226,6 +294,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
   $("btnResetAll").onclick = resetAll;
   $("btnChangePin").onclick = changePin;
   $("btnLogout").onclick = logout;
+
+  // ✅ photo upload event
+  const file = $("pFile");
+  if(file) file.addEventListener("change", onPickPhoto);
 
   if(isAuthed()) showPanel();
   else showLogin();
