@@ -1,27 +1,33 @@
-/***************
- Unique Spot - script.js
- Works with:
- - #productList
- - #searchInput, #searchBtn
- - .sidebar li[data-cat]
- - #cartCount
-****************/
+/***********************
+ Unique Spot - script.js (FULL)
+ - Product listing
+ - Category filter
+ - Search
+ - Cart count
+ - Add to cart
+ - Product click -> product.html?id=...
+************************/
 
+/* ✅ Product Data (Rs - Sri Lanka) */
 const PRODUCTS = [
-  { id: "p1", name: "Smart Watch", price: 8500, cat: "smartwatches", img: "images/watch.jpg" },
-  { id: "p2", name: "Headphones", price: 3500, cat: "electronics", img: "images/headphones.jpg" },
-  { id: "p3", name: "Mobile Phone", price: 65000, cat: "mobilephones", img: "images/phone.jpg" },
-  { id: "p4", name: "Bluetooth Speaker", price: 6000, cat: "electronics", img: "images/speaker.jpg" },
-  { id: "p5", name: "Gaming Mouse", price: 2500, cat: "gaming", img: "images/mouse.jpg" },
-  { id: "p6", name: "T-Shirt", price: 2900, cat: "fashion", img: "images/tshirt.jpg" },
-  { id: "p7", name: "Face Cream", price: 1800, cat: "beauty", img: "images/cream.jpg" },
-  { id: "p8", name: "Laptop Bag", price: 4500, cat: "electronics", img: "images/bag.jpg" },
-  { id: "p9", name: "Power Bank", price: 5200, cat: "electronics", img: "images/powerbank.jpg" },
-  { id: "p10", name: "Home Lamp", price: 3900, cat: "homeitems", img: "images/lamp.jpg" },
+  { id:"p1",  name:"Smart Watch",        price:8500,  cat:"smartwatches",  img:"images/watch.jpg" },
+  { id:"p2",  name:"Wireless Headphones",price:3500,  cat:"electronics",   img:"images/headphones.jpg" },
+  { id:"p3",  name:"Mobile Phone",       price:65000, cat:"mobilephones", img:"images/phone.jpg" },
+  { id:"p4",  name:"Bluetooth Speaker",  price:6000,  cat:"electronics",   img:"images/speaker.jpg" },
+  { id:"p5",  name:"Gaming Mouse",       price:2500,  cat:"gaming",        img:"images/mouse.jpg" },
+  { id:"p6",  name:"T-Shirt",            price:2900,  cat:"fashion",       img:"images/tshirt.jpg" },
+  { id:"p7",  name:"Face Cream",         price:1800,  cat:"beauty",        img:"images/cream.jpg" },
+  { id:"p8",  name:"Laptop Bag",         price:4500,  cat:"electronics",   img:"images/bag.jpg" },
+  { id:"p9",  name:"Power Bank",         price:5200,  cat:"electronics",   img:"images/powerbank.jpg" },
+  { id:"p10", name:"Home Lamp",          price:3900,  cat:"homeitems",     img:"images/lamp.jpg" },
 ];
 
-// ---- helpers ----
-function money(n){ return "Rs. " + Number(n).toLocaleString("en-LK"); }
+/* ✅ Helpers */
+function money(n){
+  return "Rs. " + Number(n).toLocaleString("en-LK");
+}
+
+function $(id){ return document.getElementById(id); }
 
 function getCart(){
   try { return JSON.parse(localStorage.getItem("cart")) || []; }
@@ -32,103 +38,131 @@ function saveCart(cart){
 }
 function updateCartCount(){
   const cart = getCart();
-  const count = cart.reduce((s,i)=> s + (i.qty||0), 0);
-  const el = document.getElementById("cartCount");
+  const count = cart.reduce((sum, item) => sum + (item.qty || 0), 0);
+  const el = $("cartCount");
   if(el) el.textContent = count;
 }
 
-function addToCart(id){
+/* ✅ Add to cart */
+function addToCart(productId){
   const cart = getCart();
-  const found = cart.find(x => x.id === id);
+  const found = cart.find(x => x.id === productId);
   if(found) found.qty += 1;
-  else cart.push({ id, qty: 1 });
+  else cart.push({ id: productId, qty: 1 });
   saveCart(cart);
   updateCartCount();
   alert("Added to cart ✅");
 }
 
-function imgFallback(imgEl){
-  // if image missing, show a clean placeholder
+/* ✅ Product lookup */
+function findProduct(id){
+  return PRODUCTS.find(p => p.id === id) || null;
+}
+
+/* ✅ Image fallback if image missing */
+function setImageFallback(imgEl, label){
   imgEl.onerror = () => {
     imgEl.onerror = null;
-    imgEl.src = "https://via.placeholder.com/400x300?text=Unique+Spot";
+    imgEl.src = "https://via.placeholder.com/400x300?text=" + encodeURIComponent(label || "Unique Spot");
   };
 }
 
-// ---- render ----
+/* ✅ State */
 let currentCat = "all";
 let currentQuery = "";
 
+/* ✅ Render products */
 function renderProducts(){
-  const wrap = document.getElementById("productList");
+  const wrap = $("productList");
   if(!wrap) return;
 
-  const q = currentQuery.trim().toLowerCase();
   let list = PRODUCTS.slice();
 
+  // category filter
   if(currentCat !== "all"){
     list = list.filter(p => p.cat === currentCat);
   }
+
+  // search filter
+  const q = currentQuery.trim().toLowerCase();
   if(q){
     list = list.filter(p => p.name.toLowerCase().includes(q));
   }
 
+  // empty
   if(list.length === 0){
     wrap.innerHTML = `<div class="empty">No products found.</div>`;
     return;
   }
 
+  // render cards
   wrap.innerHTML = list.map(p => `
-    <div class="card">
+    <div class="card" data-open="${p.id}">
       <img src="${p.img}" alt="${p.name}">
       <h4>${p.name}</h4>
       <p>${money(p.price)}</p>
-      <button class="btn primary-btn" data-add="${p.id}">Add to Cart</button>
+      <button class="primary-btn" data-add="${p.id}">Add to Cart</button>
     </div>
   `).join("");
 
-  // fallback for images
-  wrap.querySelectorAll("img").forEach(imgFallback);
+  // image fallback
+  wrap.querySelectorAll("img").forEach(img => {
+    const title = img.getAttribute("alt") || "Unique Spot";
+    setImageFallback(img, title);
+  });
 
-  // bind add to cart
-  wrap.querySelectorAll("[data-add]").forEach(btn=>{
-    btn.addEventListener("click", (e)=>{
-      const id = e.currentTarget.getAttribute("data-add");
+  // open product page on card click (except button)
+  wrap.querySelectorAll(".card[data-open]").forEach(card => {
+    card.addEventListener("click", (e) => {
+      const isButton = e.target && e.target.matches("[data-add]");
+      if(isButton) return;
+      const id = card.getAttribute("data-open");
+      window.location.href = `product.html?id=${encodeURIComponent(id)}`;
+    });
+  });
+
+  // add to cart
+  wrap.querySelectorAll("[data-add]").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const id = btn.getAttribute("data-add");
       addToCart(id);
     });
   });
 }
 
-function setActiveCategoryLi(cat){
-  document.querySelectorAll(".sidebar li").forEach(li => li.classList.remove("active"));
-  const active = document.querySelector(`.sidebar li[data-cat="${cat}"]`);
-  if(active) active.classList.add("active");
-}
-
+/* ✅ Sidebar categories */
 function setupCategories(){
-  document.querySelectorAll(".sidebar li[data-cat]").forEach(li=>{
-    li.addEventListener("click", ()=>{
-      const cat = li.getAttribute("data-cat");
-      currentCat = cat || "all";
-      setActiveCategoryLi(currentCat);
+  const items = document.querySelectorAll(".sidebar li[data-cat]");
+  if(!items.length) return;
+
+  items.forEach(li => {
+    li.addEventListener("click", () => {
+      currentCat = li.getAttribute("data-cat") || "all";
+
+      // active class
+      items.forEach(x => x.classList.remove("active"));
+      li.classList.add("active");
+
       renderProducts();
     });
   });
 }
 
+/* ✅ Search */
 function setupSearch(){
-  const input = document.getElementById("searchInput");
-  const btn = document.getElementById("searchBtn");
+  const input = $("searchInput");
+  const btn = $("searchBtn");
 
   if(btn){
-    btn.addEventListener("click", ()=>{
+    btn.addEventListener("click", () => {
       currentQuery = input ? input.value : "";
       renderProducts();
     });
   }
 
   if(input){
-    input.addEventListener("keydown", (e)=>{
+    input.addEventListener("keydown", (e) => {
       if(e.key === "Enter"){
         currentQuery = input.value;
         renderProducts();
@@ -137,12 +171,10 @@ function setupSearch(){
   }
 }
 
-// ---- init ----
-document.addEventListener("DOMContentLoaded", ()=>{
+/* ✅ Init */
+document.addEventListener("DOMContentLoaded", () => {
   updateCartCount();
   setupCategories();
   setupSearch();
-  // default active
-  setActiveCategoryLi("all");
   renderProducts();
 });
