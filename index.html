@@ -6,33 +6,35 @@
 <title>Unique Spot</title>
 
 <link rel="stylesheet" href="style.css">
-
 </head>
+
 <body>
 
 <!-- HEADER -->
 <header class="header">
 
-  <!-- LOGO -->
+  <!-- LOGO + BRAND NAME -->
   <div class="logo">
     <img src="images/logo.png" alt="Unique Spot">
+    <span class="brand-name">Unique Spot</span>
   </div>
 
   <!-- SEARCH -->
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Search products...">
-    <button onclick="searchProducts()">Search</button>
+    <input type="text" placeholder="Search products...">
+    <button>Search</button>
   </div>
 
   <!-- NAV -->
   <nav class="nav">
     <a href="login.html">Login</a>
     <a href="cart.html" class="cart-link">
-      Cart <span class="badge" id="cartCount">0</span>
+      Cart <span class="badge">0</span>
     </a>
   </nav>
 
 </header>
+
 
 <!-- MAIN -->
 <div class="container">
@@ -40,26 +42,24 @@
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <h3>Categories</h3>
-    <ul id="categoryList">
-      <li class="active" onclick="filterCategory('all')">All</li>
-      <li onclick="filterCategory('phones')">Mobile Phones</li>
-      <li onclick="filterCategory('watch')">Smart Watches</li>
-      <li onclick="filterCategory('electronics')">Electronics</li>
-      <li onclick="filterCategory('beauty')">Beauty</li>
-      <li onclick="filterCategory('fashion')">Fashion</li>
-      <li onclick="filterCategory('gaming')">Gaming</li>
-      <li onclick="filterCategory('home')">Home Items</li>
+    <ul>
+      <li class="active">All</li>
+      <li>Mobile Phones</li>
+      <li>Smart Watches</li>
+      <li>Electronics</li>
+      <li>Beauty</li>
+      <li>Fashion</li>
+      <li>Gaming</li>
+      <li>Home Items</li>
     </ul>
   </aside>
 
   <!-- PRODUCTS -->
-  <section class="products" id="productContainer">
+  <section class="products">
   </section>
 
 </div>
 
-
 <script src="script.js"></script>
-
 </body>
 </html>
