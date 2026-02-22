@@ -1,10 +1,9 @@
 :root{
-  --theme: #22c55e; /* ✅ Green theme */
+  --theme: #22c55e;
   --bg: #f5f5f5;
   --text: #222;
   --white: #fff;
 }
-
 * { box-sizing: border-box; }
 
 body{
@@ -27,10 +26,15 @@ body{
   z-index: 10;
 }
 
+/* ✅ LOGO IMAGE */
 .logo{
-  font-size:24px;
-  font-weight:800;
-  color: var(--theme);
+  display:flex;
+  align-items:center;
+}
+.logo img{
+  height:46px;
+  width:auto;
+  object-fit:contain;
 }
 
 .nav a{
@@ -39,9 +43,7 @@ body{
   margin-left:14px;
   font-weight:600;
 }
-
 .cart-link{ position: relative; }
-
 .badge{
   display:inline-block;
   min-width:24px;
@@ -132,7 +134,6 @@ body{
   cursor:pointer;
   min-height: 330px;
 }
-
 .card img{
   width:100%;
   height:170px;
@@ -141,7 +142,6 @@ body{
   background:#f7f7f7;
   display:block;
 }
-
 .card h4{ margin:0; font-size:16px; }
 .card p{ margin:0; font-weight:800; }
 
@@ -167,13 +167,11 @@ body{
   gap:18px;
   align-items:start;
 }
-
 .cart-items{
   display:flex;
   flex-direction:column;
   gap:12px;
 }
-
 .cart-item{
   background:#fff;
   border-radius:14px;
@@ -184,7 +182,6 @@ body{
   box-shadow:0 2px 10px rgba(0,0,0,0.06);
   border:1px solid #f1f1f1;
 }
-
 .cart-item img{
   width:90px;
   height:90px;
@@ -192,7 +189,6 @@ body{
   border-radius:12px;
   background:#f7f7f7;
 }
-
 .cart-item .info{ flex:1; }
 .cart-item .info h4{ margin:0 0 6px; }
 .cart-item .info .price{ font-weight:900; }
@@ -236,7 +232,6 @@ body{
   position: sticky;
   top: 86px;
 }
-
 .sum-row{
   display:flex;
   justify-content:space-between;
@@ -253,23 +248,16 @@ body{
   flex-direction:column;
   gap:8px;
 }
-.form input, .form textarea{
+.form input, .form textarea, .form select{
   width:100%;
   padding:10px 12px;
   border-radius:10px;
   border:1px solid #ddd;
   outline:none;
 }
-.form input:focus, .form textarea:focus{ border-color: var(--theme); }
-
-.form select{
-  width:100%;
-  padding:10px 12px;
-  border-radius:10px;
-  border:1px solid #ddd;
-  outline:none;
+.form input:focus, .form textarea:focus, .form select:focus{
+  border-color: var(--theme);
 }
-.form select:focus{ border-color: var(--theme); }
 
 .wa-btn{
   width:100%;
@@ -293,13 +281,11 @@ body{
   font-weight:900;
   cursor:pointer;
 }
-
 .note{
   font-size:12px;
   color:#666;
   margin-top:10px;
 }
-
 .empty{
   background:#fff;
   padding:16px;
@@ -308,7 +294,7 @@ body{
   box-shadow:0 2px 10px rgba(0,0,0,0.06);
 }
 
-/* ===== ORDER ID / DELIVERY SELECT ===== */
+/* order id */
 .order-id{
   margin-top:8px;
   padding:8px 10px;
@@ -318,7 +304,7 @@ body{
   font-weight:900;
 }
 
-/* ===== PAYMENT BOX ===== */
+/* payment */
 .pay-box{
   margin-top:14px;
   padding:12px;
@@ -349,7 +335,7 @@ body{
   background:#fff;
 }
 
-/* ===== AUTH (LOGIN/REGISTER) ===== */
+/* auth */
 .auth-page{
   min-height: calc(100vh - 70px);
   display:flex;
@@ -357,7 +343,6 @@ body{
   justify-content:center;
   padding:24px;
 }
-
 .auth-card{
   width:100%;
   max-width:420px;
@@ -367,15 +352,12 @@ body{
   box-shadow:0 2px 10px rgba(0,0,0,0.08);
   border:1px solid #f1f1f1;
 }
-
 .muted{ color:#666; margin-top:6px; }
-
 .tabs{
   display:flex;
   gap:10px;
   margin:14px 0;
 }
-
 .tab{
   flex:1;
   padding:10px 12px;
@@ -385,19 +367,16 @@ body{
   cursor:pointer;
   font-weight:900;
 }
-
 .tab.active{
   background: var(--theme);
   color:#fff;
   border-color: var(--theme);
 }
-
 .auth-form{
   display:flex;
   flex-direction:column;
   gap:8px;
 }
-
 .auth-form input{
   padding:10px 12px;
   border-radius:12px;
@@ -405,7 +384,6 @@ body{
   outline:none;
 }
 .auth-form input:focus{ border-color: var(--theme); }
-
 .auth-msg{
   margin-top:12px;
   padding:10px 12px;
@@ -424,7 +402,7 @@ body{
   border:1px solid #ffd1d1;
 }
 
-/* ===== ACCOUNT ===== */
+/* account */
 .account-card{
   background:#fff;
   border-radius:16px;
@@ -466,9 +444,8 @@ body{
   color:#333;
 }
 
-/* ===== ORDERS ===== */
+/* orders */
 .orders-list{ display:flex; flex-direction:column; gap:12px; }
-
 .order-card{
   background:#fff;
   border-radius:14px;
@@ -491,7 +468,6 @@ body{
 }
 .status.placed{ background:#fff7e6; border-color:#ffe1ad; }
 .status.delivered{ background:#e8fff1; border-color:#bff0cf; }
-
 .order-foot{
   display:flex;
   justify-content:space-between;
@@ -509,7 +485,7 @@ body{
   cursor:pointer;
 }
 
-/* ===== REVIEWS (under product) ===== */
+/* reviews */
 .review-box{
   border-top:1px solid #eee;
   padding-top:10px;
@@ -544,7 +520,7 @@ body{
   border-color: var(--theme);
 }
 
-/* ===== PRODUCT PAGE ===== */
+/* product */
 .product-page{
   display:grid;
   grid-template-columns: 1fr 1fr;
