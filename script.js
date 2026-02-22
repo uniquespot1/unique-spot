@@ -1,13 +1,13 @@
 /***********************
- Unique Spot - script.js (FULL)
- - Product listing
- - Category filter
- - Search
- - Cart count
- - Add to cart
+ Unique Spot - script.js (Admin Products)
+ - Loads products from localStorage (Admin Panel)
+ - Category filter, Search
+ - Cart count + Add to cart
 ************************/
 
-const PRODUCTS = [
+const LS_PRODUCTS = "us_products_v1";
+
+const FALLBACK_PRODUCTS = [
   { id:"p1",  name:"Smart Watch",         price:8500,  cat:"smartwatches",  img:"images/watch.jpg" },
   { id:"p2",  name:"Wireless Headphones", price:3500,  cat:"electronics",   img:"images/headphones.jpg" },
   { id:"p3",  name:"Mobile Phone",        price:65000, cat:"mobilephones", img:"images/phone.jpg" },
@@ -19,6 +19,17 @@ const PRODUCTS = [
   { id:"p9",  name:"Power Bank",          price:5200,  cat:"electronics",   img:"images/powerbank.jpg" },
   { id:"p10", name:"Home Lamp",           price:3900,  cat:"homeitems",     img:"images/lamp.jpg" },
 ];
+
+function loadProducts(){
+  try{
+    const raw = localStorage.getItem(LS_PRODUCTS);
+    if(!raw) return FALLBACK_PRODUCTS.slice();
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) && arr.length ? arr : FALLBACK_PRODUCTS.slice();
+  }catch{
+    return FALLBACK_PRODUCTS.slice();
+  }
+}
 
 function money(n){
   return "Rs. " + Number(n).toLocaleString("en-LK");
@@ -33,7 +44,7 @@ function saveCart(cart){
 }
 function updateCartCount(){
   const cart = getCart();
-  const count = cart.reduce((s,i)=> s + (i.qty || 0), 0);
+  const count = cart.reduce((s,i)=> s + (i.qty||0), 0);
   const el = document.getElementById("cartCount");
   if(el) el.textContent = count;
 }
@@ -62,12 +73,14 @@ function renderProducts(){
   const wrap = document.getElementById("productList");
   if(!wrap) return;
 
+  const PRODUCTS = loadProducts();
+
   let list = PRODUCTS.slice();
 
   if(currentCat !== "all") list = list.filter(p => p.cat === currentCat);
 
   const q = currentQuery.trim().toLowerCase();
-  if(q) list = list.filter(p => p.name.toLowerCase().includes(q));
+  if(q) list = list.filter(p => (p.name||"").toLowerCase().includes(q));
 
   if(list.length === 0){
     wrap.innerHTML = `<div class="empty">No products found.</div>`;
@@ -76,16 +89,14 @@ function renderProducts(){
 
   wrap.innerHTML = list.map(p => `
     <div class="card">
-      <img src="${p.img}" alt="${p.name}">
+      <img src="${p.img || ""}" alt="${p.name}">
       <h4>${p.name}</h4>
       <p>${money(p.price)}</p>
       <button class="primary-btn" data-add="${p.id}">Add to Cart</button>
     </div>
   `).join("");
 
-  wrap.querySelectorAll("img").forEach(img => {
-    setImageFallback(img, img.getAttribute("alt"));
-  });
+  wrap.querySelectorAll("img").forEach(img => setImageFallback(img, img.getAttribute("alt")));
 
   wrap.querySelectorAll("[data-add]").forEach(btn => {
     btn.addEventListener("click", () => addToCart(btn.getAttribute("data-add")));
