@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Account - Unique Spot</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">Unique-Spot</div>
+  <div class="nav">
+    <a href="index.html">← Back</a>
+    <a href="#" id="logoutBtnTop">Logout</a>
+  </div>
+</header>
+
+<div class="page">
+  <h2>My Account</h2>
+
+  <div class="account-card">
+    <div class="row">
+      <div class="pill">Logged in as</div>
+      <div id="accEmail" class="strong"></div>
+    </div>
+
+    <form id="accForm" class="acc-form">
+      <label>Name</label>
+      <input id="accName" placeholder="Your name" required>
+
+      <label>Phone</label>
+      <input id="accPhone" placeholder="07X XXX XXXX" required>
+
+      <label>Address</label>
+      <textarea id="accAddress" rows="3" placeholder="Your delivery address"></textarea>
+
+      <button class="btn primary-btn" type="submit">Save Changes</button>
+      <button class="btn ghost-btn" id="logoutBtn" type="button">Logout</button>
+
+      <div id="accMsg" class="auth-msg"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function getSession(){
+    try { return JSON.parse(localStorage.getItem("sessionUser")); }
+    catch { return null; }
+  }
+  function setSession(user){
+    localStorage.setItem("sessionUser", JSON.stringify(user));
+  }
+  function clearSession(){
+    localStorage.removeItem("sessionUser");
+  }
+  function getUsers(){
+    try { return JSON.parse(localStorage.getItem("users")) || []; }
+    catch { return []; }
+  }
+  function saveUsers(users){
+    localStorage.setItem("users", JSON.stringify(users));
+  }
+  function showMsg(text, ok=false){
+    const el = document.getElementById("accMsg");
+    if(!el) return;
+    el.textContent = text;
+    el.className = "auth-msg " + (ok ? "ok" : "bad");
+  }
+
+  const session = getSession();
+  if(!session){
+    alert("Account பார்க்க Login/Register வேண்டும் ✅");
+    window.location.href = "login.html";
+  }
+
+  const emailEl = document.getElementById("accEmail");
+  const nameEl = document.getElementById("accName");
+  const phoneEl = document.getElementById("accPhone");
+  const addrEl = document.getElementById("accAddress");
+
+  emailEl.textContent = session.email || "";
+  nameEl.value = session.name || "";
+  phoneEl.value = session.phone || "";
+  addrEl.value = session.address || "";
+
+  document.getElementById("accForm").addEventListener("submit", (e)=>{
+    e.preventDefault();
+
+    const newName = nameEl.value.trim();
+    const newPhone = phoneEl.value.trim();
+    const newAddr = addrEl.value.trim();
+
+    if(newName.length < 2){
+      showMsg("Name சரியா கொடு.");
+      return;
+    }
+
+    const users = getUsers();
+    const idx = users.findIndex(u => (u.email || "").toLowerCase() === (session.email || "").toLowerCase());
+
+    if(idx >= 0){
+      users[idx].name = newName;
+      users[idx].phone = newPhone;
+      users[idx].address = newAddr;
+      saveUsers(users);
+    }
+
+    const updatedSession = { ...session, name: newName, phone: newPhone, address: newAddr };
+    setSession(updatedSession);
+    showMsg("Saved ✅", true);
+  });
+
+  function doLogout(){
+    clearSession();
+    alert("Logged out ✅");
+    window.location.href = "index.html";
+  }
+
+  document.getElementById("logoutBtn").addEventListener("click", doLogout);
+  document.getElementById("logoutBtnTop").addEventListener("click", (e)=>{ e.preventDefault(); doLogout(); });
+</script>
+</body>
+</html>

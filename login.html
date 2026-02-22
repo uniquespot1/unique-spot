@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Unique Spot</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">Unique-Spot</div>
+  <div class="nav">
+    <a href="index.html">← Back</a>
+  </div>
+</header>
+
+<div class="auth-page">
+  <div class="auth-card">
+    <h2 id="formTitle">Login</h2>
+    <p class="muted" id="formSub">Login to continue</p>
+
+    <div class="tabs">
+      <button class="tab active" id="loginTab">Login</button>
+      <button class="tab" id="registerTab">Register</button>
+    </div>
+
+    <form id="loginForm" class="auth-form">
+      <label>Email</label>
+      <input id="loginEmail" type="email" placeholder="example@gmail.com" required>
+
+      <label>Password</label>
+      <input id="loginPassword" type="password" placeholder="********" required>
+
+      <button class="btn primary-btn" type="submit">Login</button>
+    </form>
+
+    <form id="registerForm" class="auth-form" style="display:none;">
+      <label>Name</label>
+      <input id="regName" type="text" placeholder="Your name" required>
+
+      <label>Email</label>
+      <input id="regEmail" type="email" placeholder="example@gmail.com" required>
+
+      <label>Phone</label>
+      <input id="regPhone" type="text" placeholder="07X XXX XXXX" required>
+
+      <label>Password</label>
+      <input id="regPassword" type="password" placeholder="Min 6 characters" required>
+
+      <button class="btn primary-btn" type="submit">Create Account</button>
+    </form>
+
+    <div class="auth-msg" id="authMsg"></div>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+</body>
+</html>

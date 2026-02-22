@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart - Unique Spot</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">Unique-Spot</div>
+
+  <div class="nav">
+    <a href="index.html">← Back to Shop</a>
+    <a href="cart.html" class="cart-link">
+      Cart <span id="cartCount" class="badge">0</span>
+    </a>
+  </div>
+</header>
+
+<div class="page">
+  <h2>Your Cart</h2>
+
+  <div id="cartEmpty" class="empty" style="display:none;">
+    Cart empty 😅 — <a href="index.html">Go shopping</a>
+  </div>
+
+  <div class="cart-layout">
+    <div class="cart-items" id="cartItems"></div>
+
+    <div class="summary">
+      <h3>Order Summary</h3>
+
+      <div class="order-id">
+        Order ID: <span id="orderIdText">-</span>
+      </div>
+
+      <div class="sum-row">
+        <span>Items Total</span>
+        <span id="itemsTotal">Rs. 0</span>
+      </div>
+      <div class="sum-row">
+        <span>Delivery</span>
+        <span id="deliveryFee">Rs. 0</span>
+      </div>
+      <hr/>
+      <div class="sum-row total">
+        <span>Total</span>
+        <span id="grandTotal">Rs. 0</span>
+      </div>
+
+      <div class="form">
+        <label>Your Name</label>
+        <input id="custName" placeholder="Eg: Tisikesan" />
+
+        <label>Phone Number</label>
+        <input id="custPhone" placeholder="Eg: 07X XXX XXXX" />
+
+        <label>Delivery Area</label>
+        <select id="deliveryArea">
+          <option value="NEGOMBO" selected>Negombo</option>
+          <option value="COLOMBO">Colombo</option>
+          <option value="GAMPAHA">Gampaha</option>
+          <option value="KANDY">Kandy</option>
+          <option value="KURUNEGALA">Kurunegala</option>
+          <option value="KALUTARA">Kalutara</option>
+          <option value="JAFFNA">Jaffna</option>
+          <option value="BATTICALOA">Batticaloa</option>
+        </select>
+
+        <label>Delivery Address</label>
+        <textarea id="custAddress" rows="3" placeholder="Eg: Negombo, Sri Lanka"></textarea>
+      </div>
+
+      <div class="pay-box">
+        <h3>Payment Method</h3>
+
+        <label class="radio">
+          <input type="radio" name="payMethod" value="COD" checked>
+          <span><b>Cash on Delivery (COD)</b> — Delivery போது cash pay பண்ணலாம் ✅</span>
+        </label>
+
+        <label class="radio">
+          <input type="radio" name="payMethod" value="BANK">
+          <span><b>Bank Transfer</b> — Transfer செய்து slip/receipt WhatsApp-ல் அனுப்பு ✅</span>
+        </label>
+
+        <div id="bankDetails" class="bank-details" style="display:none;">
+          <div><b>Bank:</b> People’s Bank</div>
+          <div><b>Account Name:</b> Unique Spot</div>
+          <div><b>Account No:</b> 1234567890</div>
+          <div><b>Branch:</b> Negombo</div>
+          <div class="note">⚠️ Transfer பண்ணிட்டு receipt screenshot WhatsApp-க்கு அனுப்புங்க.</div>
+        </div>
+      </div>
+
+      <button id="waOrderBtn" class="wa-btn">Order via WhatsApp</button>
+      <button id="clearCartBtn" class="danger-btn">Clear Cart</button>
+
+      <p class="note">
+        WhatsApp click பண்ணா message auto generate ஆகும் ✅
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src="cart.js"></script>
+</body>
+</html>
