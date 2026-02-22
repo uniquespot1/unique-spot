@@ -1,55 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Unique Spot</title>
-  <link rel="stylesheet" href="style.css"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unique Spot</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 
+<!-- HEADER -->
 <header class="header">
+
+  <!-- LOGO -->
   <div class="logo">
     <img src="images/logo.png" alt="Unique Spot">
   </div>
 
+  <!-- SEARCH -->
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Search products..." />
-    <button id="searchBtn" type="button">Search</button>
+    <input type="text" id="searchInput" placeholder="Search products...">
+    <button onclick="searchProducts()">Search</button>
   </div>
 
-  <div class="nav">
-    <a href="login.html" id="loginLink">Login</a>
-    <a href="account.html" id="accountLink" style="display:none;">My Account</a>
-    <a href="orders.html" id="ordersLink" style="display:none;">My Orders</a>
-
-    <span id="userHello" style="font-weight:800;"></span>
-    <a href="#" id="logoutBtn" style="display:none;">Logout</a>
-
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="login.html">Login</a>
     <a href="cart.html" class="cart-link">
-      Cart <span id="cartCount" class="badge">0</span>
+      Cart <span class="badge" id="cartCount">0</span>
     </a>
-  </div>
+  </nav>
+
 </header>
 
+<!-- MAIN -->
 <div class="container">
+
+  <!-- SIDEBAR -->
   <aside class="sidebar">
     <h3>Categories</h3>
-    <ul>
-      <li data-cat="all" class="active">🔥 All</li>
-      <li data-cat="mobilephones">📱 Mobile Phones</li>
-      <li data-cat="smartwatches">⌚ Smart Watches</li>
-      <li data-cat="fashion">👕 Fashion</li>
-      <li data-cat="beauty">💄 Beauty</li>
-      <li data-cat="electronics">💻 Electronics</li>
-      <li data-cat="gaming">🎮 Gaming</li>
-      <li data-cat="homeitems">🏠 Home Items</li>
+    <ul id="categoryList">
+      <li class="active" onclick="filterCategory('all')">All</li>
+      <li onclick="filterCategory('phones')">Mobile Phones</li>
+      <li onclick="filterCategory('watch')">Smart Watches</li>
+      <li onclick="filterCategory('electronics')">Electronics</li>
+      <li onclick="filterCategory('beauty')">Beauty</li>
+      <li onclick="filterCategory('fashion')">Fashion</li>
+      <li onclick="filterCategory('gaming')">Gaming</li>
+      <li onclick="filterCategory('home')">Home Items</li>
     </ul>
   </aside>
 
-  <main class="products" id="productList"></main>
+  <!-- PRODUCTS -->
+  <section class="products" id="productContainer">
+  </section>
+
 </div>
 
+
 <script src="script.js"></script>
+
 </body>
 </html>
