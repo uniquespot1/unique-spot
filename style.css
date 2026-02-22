@@ -37,7 +37,7 @@ body{
 }
 
 .logo img{
-  height:70px;
+  height:60px;
   width:auto;
   object-fit:contain;
 }
@@ -255,4 +255,5 @@ input, textarea, select{
   }
 
 }
+
 
