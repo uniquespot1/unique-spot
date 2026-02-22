@@ -1,6 +1,6 @@
 // ==== CONFIG: உங்கள் WhatsApp number (country code உடன்) ====
 // Sri Lanka example: 9477XXXXXXX  (0 போடாதே)
-const WHATSAPP_NUMBER = "94770000000"; // <-- இதை உன் number-ஆ மாற்று
+const WHATSAPP_NUMBER = "94776939483"; // <-- இதை உன் number-ஆ மாற்று
 
 // ✅ Must login to access cart
 function getSession(){
@@ -338,4 +338,5 @@ if(session){
 
 // init
 renderCart();
+
 updateCartBadge();
