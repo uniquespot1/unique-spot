@@ -4,7 +4,7 @@ body{
   margin:0;
   font-family: Arial, sans-serif;
   background:#22c55e;
-  color:#222;
+  color:#fff;
 }
 
 /* HEADER */
@@ -568,4 +568,5 @@ body{
   .product-page{ grid-template-columns: 1fr; }
 }
  
+
 
