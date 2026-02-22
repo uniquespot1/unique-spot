@@ -4,26 +4,82 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Panel - Unique Spot</title>
+
   <link rel="stylesheet" href="style.css" />
+
   <style>
     .admin-wrap{ max-width:1100px; margin:18px auto; padding:0 18px; }
     .admin-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
-    .admin-card{ background:#fff; border:1px solid #eee; border-radius:14px; padding:16px; box-shadow:0 2px 10px rgba(0,0,0,0.06); }
+    .admin-card{
+      background:#fff; border:1px solid #eee; border-radius:14px;
+      padding:16px; box-shadow:0 2px 10px rgba(0,0,0,0.06);
+    }
     .admin-card h2{ margin:0 0 12px; }
     .admin-row{ display:flex; gap:10px; }
     .admin-row > *{ flex:1; }
+
     .admin-table{ width:100%; border-collapse:collapse; }
-    .admin-table th,.admin-table td{ border-bottom:1px solid #eee; padding:10px 8px; text-align:left; font-size:14px; }
-    .admin-actions{ display:flex; gap:8px; }
+    .admin-table th,.admin-table td{
+      border-bottom:1px solid #eee; padding:10px 8px; text-align:left; font-size:14px;
+      vertical-align:top;
+    }
+    .admin-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+
     .small{ font-size:12px; color:#666; }
-    .danger{ background:#ff3b30; color:#fff; border:none; padding:10px 12px; border-radius:10px; font-weight:900; cursor:pointer;}
-    .ghost{ background:#fff; border:1px solid #ddd; padding:10px 12px; border-radius:10px; font-weight:900; cursor:pointer;}
-    .ok{ background:#22c55e; color:#fff; border:none; padding:10px 12px; border-radius:10px; font-weight:900; cursor:pointer;}
-    .pill{ display:inline-block; padding:4px 8px; border-radius:999px; background:#f2f2f2; font-weight:800; font-size:12px;}
+    .danger{
+      background:#ff3b30; color:#fff; border:none; padding:10px 12px;
+      border-radius:10px; font-weight:900; cursor:pointer;
+    }
+    .ghost{
+      background:#fff; border:1px solid #ddd; padding:10px 12px;
+      border-radius:10px; font-weight:900; cursor:pointer;
+    }
+    .ok{
+      background:#22c55e; color:#fff; border:none; padding:10px 12px;
+      border-radius:10px; font-weight:900; cursor:pointer;
+    }
+    .pill{
+      display:inline-block; padding:4px 8px; border-radius:999px;
+      background:#f2f2f2; font-weight:800; font-size:12px;
+    }
+
     .login-box{ max-width:520px; margin:18px auto; }
     .hidden{ display:none; }
+
+    /* Photo preview */
+    #imgPreview{
+      width:100%;
+      max-height:220px;
+      object-fit:contain;
+      border:1px solid #eee;
+      border-radius:12px;
+      display:none;
+      margin-top:10px;
+      background:#fafafa;
+      padding:6px;
+    }
+
+    /* Better spacing for file input */
+    input[type="file"]{
+      padding:10px;
+      border:1px dashed #cfcfcf;
+      border-radius:12px;
+      background:#fafafa;
+    }
+
+    /* Export box */
+    #exportBox{
+      white-space:pre-wrap;
+      background:#fafafa;
+      border:1px solid #eee;
+      padding:10px;
+      border-radius:12px;
+      margin-top:10px;
+      display:none;
+    }
   </style>
 </head>
+
 <body>
 
 <header class="header">
@@ -32,72 +88,86 @@
     <span class="brand-name">Unique Spot</span>
   </div>
 
-  <div class="nav">
+  <nav class="nav">
     <a href="index.html">Home</a>
-    <a href="cart.html" class="cart-link">Cart <span id="cartCount" class="badge">0</span></a>
-  </div>
+    <a href="cart.html" class="cart-link">
+      Cart <span id="cartCount" class="badge">0</span>
+    </a>
+  </nav>
 </header>
 
 <div class="admin-wrap">
 
-  <!-- ADMIN LOGIN -->
+  <!-- ✅ ADMIN LOGIN -->
   <div id="adminLogin" class="admin-card login-box">
     <h2>Admin Login</h2>
     <p class="small">Enter admin PIN (only you).</p>
+
     <div class="form">
       <input id="adminPin" type="password" placeholder="Enter Admin PIN">
-      <button class="ok" id="btnLogin">Login</button>
+      <button class="ok" id="btnLogin" type="button">Login</button>
       <div id="loginMsg" class="small"></div>
     </div>
-    <p class="small">First time: PIN = <b>1234</b> (login பண்ணி change பண்ணிக்கலாம்)</p>
+
+    <p class="small">First time PIN: <b>1234</b> (login பண்ணி change பண்ணிக்கலாம்)</p>
   </div>
 
-  <!-- ADMIN PANEL -->
+  <!-- ✅ ADMIN PANEL -->
   <div id="adminPanel" class="hidden">
 
     <div class="admin-grid">
 
-      <!-- ADD / EDIT PRODUCT -->
+      <!-- ✅ ADD / EDIT PRODUCT -->
       <div class="admin-card">
         <h2 id="formTitle">Add Product</h2>
 
         <div class="form">
           <input id="pId" placeholder="Product ID (auto)" disabled>
+
           <input id="pName" placeholder="Product Name">
+
           <div class="admin-row">
             <input id="pPrice" type="number" placeholder="Price (Rs.)">
             <select id="pCat">
               <option value="mobilephones">Mobile Phones</option>
               <option value="smartwatches">Smart Watches</option>
-              <option value="electronics">Electronics</option>
+              <option value="electronics" selected>Electronics</option>
               <option value="beauty">Beauty</option>
               <option value="fashion">Fashion</option>
               <option value="gaming">Gaming</option>
               <option value="homeitems">Home Items</option>
             </select>
           </div>
+
+          <!-- ✅ Image Path (optional) -->
           <input id="pImg" placeholder="Image path (ex: images/watch.jpg)">
 
-          <div class="admin-row">
-            <button class="ok" id="btnSave">Save</button>
-            <button class="ghost" id="btnReset">Reset</button>
-          </div>
+          <!-- ✅ Photo upload (no need to type path) -->
+          <input id="pFile" type="file" accept="image/*">
+          <img id="imgPreview" alt="Preview">
 
-          <p class="small">Tip: Image இல்லன்னா placeholder automatic வரும்.</p>
+          <p class="small">Tip: Photo upload பண்ணினா image path தேவையில்லை. (auto resize+compress)</p>
+
+          <div class="admin-row">
+            <button class="ok" id="btnSave" type="button">Save</button>
+            <button class="ghost" id="btnReset" type="button">Reset</button>
+          </div>
         </div>
 
         <hr style="border:none;border-top:1px solid #eee;margin:14px 0;">
 
+        <!-- ✅ Admin Settings -->
         <h3 style="margin:0 0 10px;">Admin Settings</h3>
+
         <div class="form">
           <input id="newPin" type="password" placeholder="New PIN">
-          <button class="ghost" id="btnChangePin">Change PIN</button>
-          <button class="danger" id="btnLogout">Logout</button>
+          <button class="ghost" id="btnChangePin" type="button">Change PIN</button>
+          <button class="danger" id="btnLogout" type="button">Logout</button>
           <div id="pinMsg" class="small"></div>
         </div>
       </div>
 
-      <!-- PRODUCTS LIST -->
+      <!-- ✅ PRODUCTS LIST -->
       <div class="admin-card">
         <h2>Products <span class="pill" id="countPill">0</span></h2>
 
@@ -120,11 +190,11 @@
         </div>
 
         <div class="admin-row" style="margin-top:12px;">
-          <button class="ghost" id="btnExport">Export JSON</button>
-          <button class="danger" id="btnResetAll">Reset to Default</button>
+          <button class="ghost" id="btnExport" type="button">Export JSON</button>
+          <button class="danger" id="btnResetAll" type="button">Reset to Default</button>
         </div>
 
-        <pre id="exportBox" class="small" style="white-space:pre-wrap; background:#fafafa; border:1px solid #eee; padding:10px; border-radius:12px; margin-top:10px; display:none;"></pre>
+        <pre id="exportBox" class="small"></pre>
       </div>
 
     </div>
