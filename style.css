@@ -1,198 +1,346 @@
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-font-family:Arial;
+/* =========================
+   UNIQUE SPOT - style.css
+   ========================= */
+
+*{ box-sizing:border-box; }
+
+:root{
+  --green:#16a34a;
+  --green2:#22c55e;
+  --dark:#0f172a;
+  --text:#0f172a;
+  --muted:#6b7280;
+  --bg:#f4f6f8;
+  --card:#ffffff;
+  --border:#e5e7eb;
+  --shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
 }
 
-/* BODY */
 body{
-background:#f4f7f6;
+  margin:0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+   ========================= */
 .header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:14px 25px;
-background:white;
-box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  background:#fff;
+  padding:14px 22px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
-/* LOGO */
+/* LOGO AREA */
 .logo{
-display:flex;
-align-items:center;
-gap:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 .logo img{
-width:50px;
-animation:logoPulse 1.3s infinite;
-}
-
-@keyframes logoPulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.18);}
-100%{transform:scale(1);}
+  width:42px;          /* logo size desktop */
+  height:42px;
+  object-fit:contain;
+  display:block;
 }
 
 .brand-name{
-font-size:26px;
-font-weight:bold;
-color:#1f7a3e;
+  font-size:26px;
+  font-weight:900;     /* bold */
+  color: var(--green);
+  letter-spacing:0.2px;
 }
 
-/* SEARCH */
+/* =========================
+   SEARCH
+   ========================= */
 .search-box{
-display:flex;
-width:45%;
+  display:flex;
+  width:52%;
+  max-width:720px;
 }
 
 .search-box input{
-width:100%;
-padding:10px;
-border:2px solid #1f7a3e;
-border-radius:8px 0 0 8px;
+  width:100%;
+  padding:10px 12px;
+  border:2px solid var(--green);
+  border-right:none;
+  border-radius:10px 0 0 10px;
+  outline:none;
+  font-size:14px;
 }
 
 .search-box button{
-background:#1f7a3e;
-color:white;
-border:none;
-padding:10px 18px;
-border-radius:0 8px 8px 0;
-cursor:pointer;
+  background:var(--green);
+  color:#fff;
+  border:none;
+  padding:10px 18px;
+  border-radius:0 10px 10px 0;
+  cursor:pointer;
+  font-weight:800;
 }
 
-/* NAV */
-.nav a{
-margin-left:18px;
-text-decoration:none;
-color:#333;
-font-weight:bold;
+.search-box button:hover{
+  filter:brightness(0.95);
 }
+
+/* =========================
+   NAV
+   ========================= */
+.nav a{
+  text-decoration:none;
+  color:#111827;
+  margin-left:14px;
+  font-weight:800;
+}
+
+.cart-link{ position:relative; }
 
 .badge{
-background:#1f7a3e;
-color:white;
-padding:3px 8px;
-border-radius:50%;
+  display:inline-block;
+  min-width:24px;
+  text-align:center;
+  padding:2px 7px;
+  margin-left:6px;
+  border-radius:999px;
+  background:var(--green);
+  color:#fff;
+  font-size:12px;
+  vertical-align: middle;
 }
 
-/* LAYOUT */
+/* =========================
+   LAYOUT
+   ========================= */
 .container{
-display:flex;
-gap:20px;
-padding:20px;
+  display:flex;
+  gap:18px;
+  padding:18px;
+  align-items:flex-start;
 }
 
-/* SIDEBAR */
+/* =========================
+   SIDEBAR
+   ========================= */
 .sidebar{
-width:240px;
-background:white;
-padding:15px;
-border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,0.05);
+  width:260px;
+  background:#fff;
+  padding:16px;
+  border-radius:14px;
+  box-shadow: var(--shadow);
+  border:1px solid var(--border);
+  height: fit-content;
+}
+
+.sidebar h3{
+  margin:8px 0 12px;
+  font-size:18px;
+  font-weight:900;
+  color:#111827;
+}
+
+.sidebar ul{
+  list-style:none;
+  padding:0;
+  margin:0;
 }
 
 .sidebar li{
-padding:10px;
-border-radius:8px;
-margin-bottom:8px;
-cursor:pointer;
+  padding:10px 12px;
+  border-radius:12px;
+  cursor:pointer;
+  margin-bottom:10px;
+  border:1px solid var(--border);
+  font-weight:700;
+  color:#111827;
+  background:#fff;
 }
 
-.sidebar li:hover{
-background:#e7f5ec;
-}
+.sidebar li:hover{ background:#f9fafb; }
 
 .sidebar li.active{
-background:#1f7a3e;
-color:white;
+  background:var(--green);
+  color:#fff;
+  border-color:var(--green);
 }
 
-/* PRODUCTS */
+/* =========================
+   PRODUCTS GRID
+   ========================= */
 .products{
-flex:1;
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-gap:18px;
+  flex:1;
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+  gap:18px;
 }
 
-/* CARD */
+/* =========================
+   CARD
+   ========================= */
 .card{
-background:white;
-border-radius:14px;
-padding:14px;
-box-shadow:0 4px 14px rgba(0,0,0,0.08);
-text-align:center;
-transition:0.25s;
-}
-
-.card:hover{
-transform:translateY(-6px);
+  background:#fff;
+  padding:14px;
+  border-radius:16px;
+  box-shadow: var(--shadow);
+  border:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
 
 .card img{
-width:100%;
-height:160px;
-object-fit:cover;
-border-radius:10px;
-background:#eee;
+  width:100%;
+  height:170px;
+  object-fit:cover;
+  border-radius:14px;
+  background:#f3f4f6;
 }
 
 .card h4{
-margin-top:10px;
+  margin:0;
+  font-size:16px;
+  font-weight:900;
 }
 
 .card p{
-font-weight:bold;
-margin:6px 0 12px;
+  margin:0;
+  font-weight:900;
+  color:#111827;
 }
 
-/* BUTTON */
 .btn{
-padding:8px 12px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-margin:4px;
+  border:none;
+  cursor:pointer;
+  border-radius:12px;
+  padding:10px 12px;
+  font-weight:900;
+  font-size:13px;
 }
 
 .primary-btn{
-background:#1f7a3e;
-color:white;
+  background:var(--dark);
+  color:#fff;
 }
+.primary-btn:hover{ filter:brightness(0.95); }
 
+/* WhatsApp button */
 .whatsapp-btn{
-background:#25D366;
-color:white;
+  background:#25D366;
+  color:#fff;
+}
+.whatsapp-btn:hover{ filter:brightness(0.95); }
+
+/* Buttons row inside card */
+.card-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:6px;
 }
 
-/* FLOAT WHATSAPP */
-.float-whatsapp{
-position:fixed;
-right:18px;
-bottom:20px;
-width:60px;
-height:60px;
-background:#25D366;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-box-shadow:0 6px 18px rgba(0,0,0,0.25);
-animation:bounce 1.5s infinite;
+.card-actions a{
+  display:inline-flex;
+  text-decoration:none;
 }
 
-.float-whatsapp img{
-width:34px;
+/* IMPORTANT FIX: prevent any icon/image from becoming huge */
+.whatsapp-btn img,
+.wa-link img,
+.card-actions img{
+  width:18px !important;
+  height:18px !important;
+  object-fit:contain;
 }
 
-@keyframes bounce{
-0%{transform:translateY(0);}
-50%{transform:translateY(-10px);}
-100%{transform:translateY(0);}
+/* If you ever used a whatsapp icon class */
+.whatsapp-icon, .wa-big{
+  width:18px !important;
+  height:18px !important;
+  object-fit:contain;
+  display:inline-block;
+}
+
+/* =========================
+   EMPTY STATE
+   ========================= */
+.empty{
+  background:#fff;
+  padding:16px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  box-shadow: var(--shadow);
+  font-weight:800;
+  color:#111827;
+}
+
+/* =========================
+   CART PAGE (optional future)
+   ========================= */
+.page{ padding:18px 22px; }
+
+.cart-layout{
+  display:grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap:18px;
+  align-items:start;
+}
+
+.summary{
+  background:#fff;
+  border-radius:14px;
+  padding:16px;
+  box-shadow: var(--shadow);
+  border:1px solid var(--border);
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+@media (max-width: 900px){
+  .header{
+    flex-direction:column;
+    align-items:stretch;
+    gap:10px;
+  }
+
+  .search-box{
+    width:100%;
+    max-width:none;
+  }
+
+  .nav{
+    display:flex;
+    justify-content:flex-end;
+    gap:14px;
+  }
+
+  .container{
+    flex-direction:column;
+  }
+
+  .sidebar{
+    width:100%;
+  }
+
+  .logo img{
+    width:34px;      /* phone logo size */
+    height:34px;
+  }
+
+  .brand-name{
+    font-size:22px;
+  }
+
+  .card img{
+    height:160px;
+  }
 }
