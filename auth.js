@@ -60,7 +60,7 @@ registerForm?.addEventListener("submit", (e)=>{
 
   const users = getUsers();
   if(users.find(u => u.email === email)){
-    showMsg("இந்த email already register ஆகி இருக்கு.");
+    showMsg("This email already registed .");
     return;
   }
 
@@ -91,4 +91,5 @@ loginForm?.addEventListener("submit", (e)=>{
   setSession({ name: user.name, email: user.email, phone: user.phone || "", address: user.address || "" });
   showMsg("Login success ✅ Redirecting...", true);
   setTimeout(()=> window.location.href = "index.html", 600);
+
 });
