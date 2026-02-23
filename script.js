@@ -4,7 +4,7 @@
 const SHOP_WHATSAPP = "94776939483";
 
 // ===== Products Data =====
-// NOTE: img path correct-ஆ இருக்கணும்: images/filename.png
+// NOTE: The img path must be correct: images/filename.png.png
 const PRODUCTS = [
   { id: 1, name: "Smart Watch", price: 8500, cat: "smartwatches", img: "images/smartwatch.jpg" },
   { id: 2, name: "Wireless Headphones", price: 3500, cat: "electronics", img: "images/headphones.jpg" },
