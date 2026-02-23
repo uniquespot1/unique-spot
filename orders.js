@@ -10,7 +10,7 @@ function saveOrders(orders){
 
 const session = getSession();
 if(!session){
-  alert("Orders பார்க்க Login/Register வேண்டும் ✅");
+  alert("You must Login/Register to view orders. ✅");
   window.location.href = "login.html";
 }
 
@@ -75,5 +75,6 @@ function render(){
     });
   });
 }
+
 
 render();
