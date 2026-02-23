@@ -1,6 +1,6 @@
-// ==== CONFIG: உங்கள் WhatsApp number (country code உடன்) ====
-// Sri Lanka example: 9477XXXXXXX  (0 போடாதே)
-const WHATSAPP_NUMBER = "94776939483"; // <-- இதை உன் number-ஆ மாற்று
+// ==== CONFIG: your WhatsApp number (With country code ) ====
+// Sri Lanka example: 9477XXXXXXX  (0)
+const WHATSAPP_NUMBER = "94776939483"; // <--
 
 // ✅ Must login to access cart
 function getSession(){
@@ -9,7 +9,7 @@ function getSession(){
 }
 const sessionNow = getSession();
 if(!sessionNow){
-  alert("Cart பார்க்க Login/Register வேண்டும் ✅");
+  alert("You must Login/Register to view Cart ✅");
   window.location.href = "login.html";
 }
 
@@ -250,7 +250,7 @@ function buildWhatsAppMessage(){
     lines.push("Account Name: Unique Spot");
     lines.push("Account No: 1234567890");
     lines.push("Branch: Negombo");
-    lines.push("➡️ Transfer செய்து receipt screenshot அனுப்புகிறேன்.");
+    lines.push("➡️ I will transfer and send you a receipt screenshot..");
   }
 
   lines.push("");
@@ -280,7 +280,7 @@ if(waOrderBtn){
     }
 
     if(!WHATSAPP_NUMBER || WHATSAPP_NUMBER === "94770000000"){
-      alert("cart.js ல WHATSAPP_NUMBER change பண்ணு (உன் number).");
+      alert("Change WHATSAPP_NUMBER in cart.js (your number).");
       return;
     }
 
@@ -340,3 +340,4 @@ if(session){
 renderCart();
 
 updateCartBadge();
+
