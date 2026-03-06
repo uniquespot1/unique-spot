@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unique Spot | Advanced Online Shop</title>
+  <title>Unique Spot | Online Shop</title>
+
   <meta name="theme-color" content="#1f8f43">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Unique Spot">
-  <link rel="apple-touch-icon" href="images/icon-192.png">
+  <meta name="description" content="Unique Spot Online Shop Sri Lanka. Local deals, own stock and dropshipping products with WhatsApp ordering.">
+
   <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="images/icon-192.png">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -29,7 +32,7 @@
       <button id="searchBtn">Search</button>
     </div>
 
-    <nav class="nav">
+    <nav class="nav desktop-nav">
       <a href="#hero">Home</a>
       <a href="#productsSection">Products</a>
       <a href="#" id="cartBtn">Cart <span id="cartCount" class="cart-badge">0</span></a>
@@ -37,14 +40,14 @@
   </header>
 
   <div class="install-wrap">
-    <button id="installBtn" class="install-btn" style="display:none;">Install App</button>
+    <button id="installBtn" class="install-btn">Install App</button>
   </div>
 
   <section class="hero" id="hero">
     <div class="hero-content">
       <span class="hero-tag">Everything in One Spot</span>
       <h2>Best Deals for Every Need</h2>
-      <p>Shop local products, own stock items and dropshipping offers with fast WhatsApp ordering.</p>
+      <p>Shop local products, own stock items and dropshipping offers with easy WhatsApp ordering.</p>
       <a href="#productsSection" class="hero-btn">Start Shopping</a>
     </div>
   </section>
@@ -125,6 +128,26 @@
       <small>© 2026 Unique Spot. All rights reserved.</small>
     </div>
   </footer>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="mobile-bottom-nav">
+    <a href="#hero" class="mobile-nav-item">
+      <span>🏠</span>
+      <small>Home</small>
+    </a>
+    <a href="#productsSection" class="mobile-nav-item">
+      <span>🛍️</span>
+      <small>Products</small>
+    </a>
+    <a href="#" id="mobileCartBtn" class="mobile-nav-item">
+      <span>🛒</span>
+      <small>Cart</small>
+    </a>
+    <a href="https://wa.me/94776939483?text=Hello%20Unique%20Spot" target="_blank" class="mobile-nav-item">
+      <span>💬</span>
+      <small>Chat</small>
+    </a>
+  </nav>
 
   <script src="script.js"></script>
 </body>
