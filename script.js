@@ -140,7 +140,11 @@ const cartItems = document.getElementById("cartItems");
 const cartTotal = document.getElementById("cartTotal");
 const clearCartBtn = document.getElementById("clearCartBtn");
 const cartWhatsAppBtn = document.getElementById("cartWhatsAppBtn");
+const installBtn = document.getElementById("installBtn");
 
+/* =========================
+   HELPERS
+========================= */
 function formatPrice(price){
   return `Rs. ${price.toLocaleString()}`;
 }
@@ -162,13 +166,22 @@ function updateCartCount(){
   cartCount.textContent = cart.length;
 }
 
+/* =========================
+   PRODUCTS RENDER
+========================= */
 function renderProducts(){
   const searchValue = searchInput.value.toLowerCase().trim();
 
   const filtered = products.filter(product => {
-    const categoryMatch = selectedCategory === "all" || product.category === selectedCategory;
-    const stockTypeMatch = selectedStockType === "all" || product.stockType === selectedStockType;
-    const searchMatch = product.name.toLowerCase().includes(searchValue);
+    const categoryMatch =
+      selectedCategory === "all" || product.category === selectedCategory;
+
+    const stockTypeMatch =
+      selectedStockType === "all" || product.stockType === selectedStockType;
+
+    const searchMatch =
+      product.name.toLowerCase().includes(searchValue);
+
     return categoryMatch && stockTypeMatch && searchMatch;
   });
 
@@ -210,6 +223,9 @@ function renderProducts(){
   });
 }
 
+/* =========================
+   CART
+========================= */
 function addToCart(id){
   const product = products.find(p => p.id === id);
   if(product){
@@ -284,6 +300,9 @@ function cartWhatsAppOrder(){
   window.open(link, "_blank");
 }
 
+/* =========================
+   FILTERS
+========================= */
 categoryList.addEventListener("click", (e) => {
   if(e.target.tagName === "LI"){
     document.querySelectorAll("#categoryList li").forEach(li => li.classList.remove("active"));
@@ -305,6 +324,9 @@ stockTypeList.addEventListener("click", (e) => {
 searchBtn.addEventListener("click", renderProducts);
 searchInput.addEventListener("keyup", renderProducts);
 
+/* =========================
+   CART MODAL
+========================= */
 cartBtn.addEventListener("click", (e) => {
   e.preventDefault();
   cartModal.style.display = "flex";
@@ -324,6 +346,62 @@ window.addEventListener("click", (e) => {
 clearCartBtn.addEventListener("click", clearCart);
 cartWhatsAppBtn.addEventListener("click", cartWhatsAppOrder);
 
+/* =========================
+   PWA INSTALL
+========================= */
+let deferredPrompt;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if(installBtn){
+    installBtn.style.display = "inline-block";
+  }
+});
+
+if(installBtn){
+  installBtn.addEventListener("click", async () => {
+    if(!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    const choiceResult = await deferredPrompt.userChoice;
+
+    if(choiceResult.outcome === "accepted"){
+      console.log("User accepted the install prompt");
+    } else {
+      console.log("User dismissed the install prompt");
+    }
+
+    deferredPrompt = null;
+    installBtn.style.display = "none";
+  });
+}
+
+window.addEventListener("appinstalled", () => {
+  console.log("PWA was installed");
+  if(installBtn){
+    installBtn.style.display = "none";
+  }
+});
+
+/* =========================
+   SERVICE WORKER
+========================= */
+if("serviceWorker" in navigator){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .then(() => {
+        console.log("Service Worker registered successfully");
+      })
+      .catch((error) => {
+        console.log("Service Worker registration failed:", error);
+      });
+  });
+}
+
+/* =========================
+   INIT
+========================= */
 updateCartCount();
 renderProducts();
 renderCart();
