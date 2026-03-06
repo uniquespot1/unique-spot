@@ -1,69 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unique Spot</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unique Spot | Online Shop</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-<!-- HEADER -->
-<header class="header">
+  <!-- HEADER -->
+  <header class="header">
+    <a href="index.html" class="logo-box">
+      <img src="images/logo.png" alt="Unique Spot Logo" class="logo-img">
+      <div class="logo-text">
+        <h1>Unique Spot</h1>
+        <p>Everything in One Spot</p>
+      </div>
+    </a>
 
-    <!-- LOGO -->
-    <div class="logo">
-        <img src="images/logo.png" alt="Unique Spot">
-        <h1 class="brand">Unique Spot</h1>
-    </div>
-
-    <!-- SEARCH -->
     <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search products...">
-        <button onclick="searchProduct()">Search</button>
+      <input type="text" id="searchInput" placeholder="Search products...">
+      <button id="searchBtn">Search</button>
     </div>
 
-    <!-- NAV -->
-    <div class="nav">
-        <a href="#">Login</a>
-        <a href="#">Cart (<span id="cartCount">0</span>)</a>
+    <nav class="nav-links">
+      <a href="#">Home</a>
+      <a href="#productsSection">Products</a>
+      <a href="#" id="cartBtn">Cart <span id="cartCount">0</span></a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Best Deals for Every Need</h2>
+      <p>Buy quality products online with easy WhatsApp ordering.</p>
+      <a href="#productsSection" class="hero-btn">Shop Now</a>
     </div>
+  </section>
 
-</header>
-
-
-<!-- MAIN -->
-<div class="main">
-
-    <!-- CATEGORY -->
+  <!-- MAIN -->
+  <section class="main-section" id="productsSection">
     <aside class="sidebar">
-        <h3>Categories</h3>
-        <ul>
-            <li onclick="filterCategory('all')" class="active">All</li>
-            <li onclick="filterCategory('mobile')">Mobile Phones</li>
-            <li onclick="filterCategory('watch')">Smart Watches</li>
-            <li onclick="filterCategory('electronics')">Electronics</li>
-            <li onclick="filterCategory('beauty')">Beauty</li>
-            <li onclick="filterCategory('fashion')">Fashion</li>
-            <li onclick="filterCategory('gaming')">Gaming</li>
-            <li onclick="filterCategory('home')">Home Items</li>
-        </ul>
+      <h3>Categories</h3>
+      <ul id="categoryList">
+        <li class="active" data-category="all">🔥 All</li>
+        <li data-category="mobilephones">📱 Mobile Phones</li>
+        <li data-category="smartwatches">⌚ Smart Watches</li>
+        <li data-category="electronics">💻 Electronics</li>
+        <li data-category="beauty">💄 Beauty</li>
+        <li data-category="fashion">👕 Fashion</li>
+        <li data-category="gaming">🎮 Gaming</li>
+        <li data-category="homeitems">🏠 Home Items</li>
+      </ul>
     </aside>
 
-    <!-- PRODUCTS -->
-    <section class="products" id="productList"></section>
+    <div class="products-area">
+      <div class="section-top">
+        <h2>Our Products</h2>
+      </div>
+      <div class="products-grid" id="productList"></div>
+    </div>
+  </section>
 
-</div>
+  <!-- CART MODAL -->
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-content">
+      <div class="cart-header">
+        <h3>Your Cart</h3>
+        <button id="closeCart">&times;</button>
+      </div>
 
+      <div id="cartItems"></div>
 
-<!-- FLOATING WHATSAPP BUTTON -->
-<a href="https://wa.me/94776939483?text=Hello%20Unique%20Spot,%20I%20want%20to%20order"
-class="whatsapp-float" target="_blank">
-<img src="images/whatsapp.png">
-</a>
+      <div class="cart-footer">
+        <h4>Total: <span id="cartTotal">Rs. 0</span></h4>
+        <button id="cartWhatsAppBtn" class="cart-wa-btn">WhatsApp Cart Order</button>
+        <button id="clearCartBtn" class="clear-cart-btn">Clear Cart</button>
+      </div>
+    </div>
+  </div>
 
-<script src="script.js"></script>
+  <!-- FLOATING WHATSAPP -->
+  <a
+    href="https://wa.me/94776939483?text=Hello%20Unique%20Spot,%20I%20want%20to%20order"
+    class="whatsapp-float"
+    target="_blank"
+    aria-label="WhatsApp"
+  >
+    <img src="images/whatsapp.png" alt="WhatsApp">
+  </a>
 
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 Unique Spot. All Rights Reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
