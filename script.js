@@ -1,193 +1,253 @@
-/* =========================
-   UNIQUE SPOT - script.js
-   ========================= */
+const whatsappNumber = "94776939483";
 
-const WA_NUMBER = "94776939483";
-
-/* PRODUCTS DATA (நீங்க அதிகம் add பண்ணலாம்) */
 const products = [
-  { id: 1, name: "Smart Watch", price: 8500,  cat: "smartwatches", img: "images/products/watch.jpg" },
-  { id: 2, name: "Wireless Headphones", price: 3500, cat: "electronics", img: "images/products/headphones.jpg" },
-  { id: 3, name: "Mobile Phone", price: 65000, cat: "mobilephones", img: "images/products/mobile.jpg" },
-  { id: 4, name: "Bluetooth Speaker", price: 6000, cat: "electronics", img: "images/products/speaker.jpg" },
-  { id: 5, name: "Gaming Mouse", price: 2500, cat: "gaming", img: "images/products/mouse.jpg" },
-  { id: 6, name: "T-Shirt", price: 2900, cat: "fashion", img: "images/products/tshirt.jpg" },
-  { id: 7, name: "Face Cream", price: 1800, cat: "beauty", img: "images/products/cream.jpg" },
-  { id: 8, name: "Laptop Bag", price: 4500, cat: "electronics", img: "images/products/bag.jpg" },
-  { id: 9, name: "Power Bank", price: 5200, cat: "electronics", img: "images/products/powerbank.jpg" },
-  { id: 10, name: "Home Lamp", price: 3900, cat: "homeitems", img: "images/products/lamp.jpg" }
+  {
+    id: 1,
+    name: "Smart Watch",
+    price: 8500,
+    category: "smartwatches",
+    image: "images/watch.jpg"
+  },
+  {
+    id: 2,
+    name: "Wireless Headphones",
+    price: 3500,
+    category: "electronics",
+    image: "images/headphones.jpg"
+  },
+  {
+    id: 3,
+    name: "Mobile Phone",
+    price: 65000,
+    category: "mobilephones",
+    image: "images/phone.jpg"
+  },
+  {
+    id: 4,
+    name: "Bluetooth Speaker",
+    price: 6000,
+    category: "electronics",
+    image: "images/speaker.jpg"
+  },
+  {
+    id: 5,
+    name: "Gaming Mouse",
+    price: 2500,
+    category: "gaming",
+    image: "images/mouse.jpg"
+  },
+  {
+    id: 6,
+    name: "T-Shirt",
+    price: 2900,
+    category: "fashion",
+    image: "images/tshirt.jpg"
+  },
+  {
+    id: 7,
+    name: "Face Cream",
+    price: 1800,
+    category: "beauty",
+    image: "images/cream.jpg"
+  },
+  {
+    id: 8,
+    name: "Laptop Bag",
+    price: 4500,
+    category: "fashion",
+    image: "images/bag.jpg"
+  },
+  {
+    id: 9,
+    name: "Power Bank",
+    price: 5200,
+    category: "electronics",
+    image: "images/powerbank.jpg"
+  },
+  {
+    id: 10,
+    name: "Home Lamp",
+    price: 3900,
+    category: "homeitems",
+    image: "images/lamp.jpg"
+  }
 ];
 
-/* STATE */
-let activeCategory = "all";
-let searchText = "";
+let selectedCategory = "all";
+let cart = JSON.parse(localStorage.getItem("uniqueSpotCart")) || [];
 
-/* ELEMENTS */
 const productList = document.getElementById("productList");
-const cartCountEl = document.getElementById("cartCount");
+const categoryList = document.getElementById("categoryList");
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
+const cartBtn = document.getElementById("cartBtn");
+const cartModal = document.getElementById("cartModal");
+const closeCart = document.getElementById("closeCart");
+const cartItems = document.getElementById("cartItems");
+const cartTotal = document.getElementById("cartTotal");
+const cartCount = document.getElementById("cartCount");
+const clearCartBtn = document.getElementById("clearCartBtn");
+const cartWhatsAppBtn = document.getElementById("cartWhatsAppBtn");
 
-/* ============ HELPERS ============ */
-function formatLKR(amount) {
-  // Rs. 65,000 format
-  return "Rs. " + Number(amount).toLocaleString("en-LK");
+function formatPrice(price){
+  return `Rs. ${price.toLocaleString()}`;
 }
 
-function getCart() {
-  try {
-    return JSON.parse(localStorage.getItem("cart")) || [];
-  } catch (e) {
-    return [];
-  }
-}
-
-function saveCart(cart) {
-  localStorage.setItem("cart", JSON.stringify(cart));
+function saveCart(){
+  localStorage.setItem("uniqueSpotCart", JSON.stringify(cart));
   updateCartCount();
 }
 
-function updateCartCount() {
-  const cart = getCart();
-  const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-  if (cartCountEl) cartCountEl.textContent = totalQty;
+function updateCartCount(){
+  cartCount.textContent = cart.length;
 }
 
-function buildWhatsAppLink(product) {
-  const msg =
-    `Hello Unique Spot,%0A` +
-    `I want to order:%0A` +
-    `Product: ${product.name}%0A` +
-    `Price: ${formatLKR(product.price)}%0A%0A` +
-    `Please confirm availability.`;
-  return `https://wa.me/${WA_NUMBER}?text=${msg}`;
-}
+function renderProducts(){
+  const searchValue = searchInput.value.toLowerCase().trim();
 
-/* ============ RENDER PRODUCTS ============ */
-function renderProducts() {
-  if (!productList) return;
+  const filteredProducts = products.filter(product => {
+    const categoryMatch =
+      selectedCategory === "all" || product.category === selectedCategory;
 
-  let list = [...products];
+    const searchMatch =
+      product.name.toLowerCase().includes(searchValue);
 
-  // category filter
-  if (activeCategory !== "all") {
-    list = list.filter(p => p.cat === activeCategory);
-  }
+    return categoryMatch && searchMatch;
+  });
 
-  // search filter
-  if (searchText.trim() !== "") {
-    const q = searchText.trim().toLowerCase();
-    list = list.filter(p => p.name.toLowerCase().includes(q));
-  }
-
-  // render html
   productList.innerHTML = "";
 
-  if (list.length === 0) {
-    productList.innerHTML = `<div class="empty">No products found.</div>`;
+  if(filteredProducts.length === 0){
+    productList.innerHTML = `<p>No products found.</p>`;
     return;
   }
 
-  list.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "card";
+  filteredProducts.forEach(product => {
+    const whatsappMessage = `Hello Unique Spot, I want to order ${product.name} - ${formatPrice(product.price)}`;
+    const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
-    // image fallback (image missing இருந்தால்)
-    const imgSrc = p.img || "https://via.placeholder.com/300x200?text=Product";
+    const card = document.createElement("div");
+    card.className = "product-card";
 
     card.innerHTML = `
-      <img src="${imgSrc}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Product'">
-      <h4>${p.name}</h4>
-      <p>${formatLKR(p.price)}</p>
-
-      <div class="card-actions">
-        <button class="btn primary-btn" data-add="${p.id}">Add to Cart</button>
-        <a class="wa-link" href="${buildWhatsAppLink(p)}" target="_blank">
-          <button class="btn whatsapp-btn" type="button">WhatsApp Order</button>
-        </a>
+      <img src="${product.image}" alt="${product.name}" onerror="this.src='images/logo.png'">
+      <h3>${product.name}</h3>
+      <p class="price">${formatPrice(product.price)}</p>
+      <div class="product-buttons">
+        <button class="add-cart-btn" onclick="addToCart(${product.id})">Add to Cart</button>
+        <a class="whatsapp-btn" href="${whatsappLink}" target="_blank">WhatsApp Order</a>
       </div>
     `;
 
     productList.appendChild(card);
   });
+}
 
-  // attach add-to-cart events
-  document.querySelectorAll("[data-add]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const id = Number(btn.getAttribute("data-add"));
-      addToCart(id);
-    });
+function addToCart(productId){
+  const product = products.find(item => item.id === productId);
+  if(product){
+    cart.push(product);
+    saveCart();
+    renderCart();
+    alert(product.name + " added to cart");
+  }
+}
+
+function renderCart(){
+  cartItems.innerHTML = "";
+
+  if(cart.length === 0){
+    cartItems.innerHTML = `<p>Your cart is empty.</p>`;
+    cartTotal.textContent = "Rs. 0";
+    return;
+  }
+
+  let total = 0;
+
+  cart.forEach((item, index) => {
+    total += item.price;
+
+    const cartItem = document.createElement("div");
+    cartItem.className = "cart-item";
+
+    cartItem.innerHTML = `
+      <img src="${item.image}" alt="${item.name}" onerror="this.src='images/logo.png'">
+      <div class="cart-item-details">
+        <h4>${item.name}</h4>
+        <p>${formatPrice(item.price)}</p>
+      </div>
+      <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
+    `;
+
+    cartItems.appendChild(cartItem);
   });
+
+  cartTotal.textContent = formatPrice(total);
 }
 
-/* ============ CART LOGIC ============ */
-function addToCart(productId) {
-  const cart = getCart();
-  const product = products.find(p => p.id === productId);
-  if (!product) return;
+function removeFromCart(index){
+  cart.splice(index, 1);
+  saveCart();
+  renderCart();
+}
 
-  const existing = cart.find(i => i.id === productId);
+function clearCart(){
+  cart = [];
+  saveCart();
+  renderCart();
+}
 
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    cart.push({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      img: product.img,
-      qty: 1
-    });
+function cartWhatsAppOrder(){
+  if(cart.length === 0){
+    alert("Your cart is empty");
+    return;
   }
 
-  saveCart(cart);
+  let message = "Hello Unique Spot, I want to order these items:%0A%0A";
+  let total = 0;
 
-  // small feedback
-  alert(`${product.name} added to cart ✅`);
-}
-
-/* ============ CATEGORY CLICK (SIDEBAR) ============ */
-function setupCategoryClicks() {
-  const cats = document.querySelectorAll(".sidebar li[data-cat]");
-  if (!cats.length) return;
-
-  cats.forEach(li => {
-    li.addEventListener("click", () => {
-      // active class change
-      cats.forEach(x => x.classList.remove("active"));
-      li.classList.add("active");
-
-      activeCategory = li.getAttribute("data-cat");
-      renderProducts();
-    });
+  cart.forEach((item, index) => {
+    message += `${index + 1}. ${item.name} - ${formatPrice(item.price)}%0A`;
+    total += item.price;
   });
+
+  message += `%0ATotal: ${formatPrice(total)}`;
+
+  const link = `https://wa.me/${whatsappNumber}?text=${message}`;
+  window.open(link, "_blank");
 }
 
-/* ============ SEARCH ============ */
-function setupSearch() {
-  if (searchBtn) {
-    searchBtn.addEventListener("click", () => {
-      searchText = searchInput ? searchInput.value : "";
-      renderProducts();
-    });
+categoryList.addEventListener("click", (e) => {
+  if(e.target.tagName === "LI"){
+    document.querySelectorAll("#categoryList li").forEach(li => li.classList.remove("active"));
+    e.target.classList.add("active");
+    selectedCategory = e.target.dataset.category;
+    renderProducts();
   }
+});
 
-  if (searchInput) {
-    searchInput.addEventListener("keyup", (e) => {
-      if (e.key === "Enter") {
-        searchText = searchInput.value;
-        renderProducts();
-      }
-    });
+searchBtn.addEventListener("click", renderProducts);
+searchInput.addEventListener("keyup", renderProducts);
+
+cartBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  cartModal.style.display = "flex";
+  renderCart();
+});
+
+closeCart.addEventListener("click", () => {
+  cartModal.style.display = "none";
+});
+
+window.addEventListener("click", (e) => {
+  if(e.target === cartModal){
+    cartModal.style.display = "none";
   }
-}
+});
 
-/* ============ INIT ============ */
-function init() {
-  updateCartCount();
-  setupCategoryClicks();
-  setupSearch();
-  renderProducts();
-}
+clearCartBtn.addEventListener("click", clearCart);
+cartWhatsAppBtn.addEventListener("click", cartWhatsAppOrder);
 
-init();
+updateCartCount();
+renderProducts();
+renderCart();
